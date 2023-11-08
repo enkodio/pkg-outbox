@@ -3,13 +3,13 @@ package app
 import (
 	"database/sql"
 	"flag"
+	"github.com/enkodio/pkg-outbox/migration/migrations"
+	"github.com/enkodio/pkg-outbox/pkg/environment"
+	"github.com/enkodio/pkg-outbox/pkg/logger"
 	_ "github.com/jackc/pgx/v5/stdlib"
 	"github.com/pkg/errors"
 	"github.com/pressly/goose/v3"
 	"github.com/sirupsen/logrus"
-	"gitlab.enkod.tech/pkg/transactionoutbox/migration/migrations"
-	"gitlab.enkod.tech/pkg/transactionoutbox/pkg/environment"
-	"gitlab.enkod.tech/pkg/transactionoutbox/pkg/logger"
 	"os"
 )
 

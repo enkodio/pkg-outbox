@@ -1,4 +1,4 @@
-package client
+package repository
 
 const (
 	scanningErr = "scanning error"

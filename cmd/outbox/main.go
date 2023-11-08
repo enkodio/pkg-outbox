@@ -1,9 +1,9 @@
 package main
 
 import (
+	"github.com/enkodio/pkg-outbox/internal/app"
+	"github.com/enkodio/pkg-outbox/pkg/config"
 	log "github.com/sirupsen/logrus"
-	"gitlab.enkod.tech/pkg/transactionoutbox/internal/app"
-	"gitlab.enkod.tech/pkg/transactionoutbox/pkg/config"
 	"os"
 )
 

@@ -2,9 +2,9 @@ package main
 
 import (
 	"database/sql"
+	"github.com/enkodio/pkg-outbox/migration/app"
+	"github.com/enkodio/pkg-outbox/pkg/config"
 	log "github.com/sirupsen/logrus"
-	"gitlab.enkod.tech/pkg/transactionoutbox/migration/app"
-	"gitlab.enkod.tech/pkg/transactionoutbox/pkg/config"
 	"os"
 )
 

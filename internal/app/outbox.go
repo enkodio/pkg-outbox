@@ -2,11 +2,13 @@ package app
 
 import (
 	"context"
-	kafkaClient "gitlab.enkod.tech/pkg/kafka/client"
-	postgres "gitlab.enkod.tech/pkg/postgres/client"
-	"gitlab.enkod.tech/pkg/transactionoutbox/client"
-	configEntity "gitlab.enkod.tech/pkg/transactionoutbox/pkg/config/entity"
-	"gitlab.enkod.tech/pkg/transactionoutbox/pkg/logger"
+	kafkaClient "github.com/enkodio/pkg-kafka/client"
+	"github.com/enkodio/pkg-outbox/client"
+	"github.com/enkodio/pkg-outbox/outbox"
+
+	configEntity "github.com/enkodio/pkg-outbox/pkg/config/entity"
+	"github.com/enkodio/pkg-outbox/pkg/logger"
+	postgres "github.com/enkodio/pkg-postgres/client"
 	"time"
 )
 
@@ -43,7 +45,7 @@ func testConsumer(topic string, k kafkaClient.Client) {
 	})
 }
 
-func testProducer(topic string, k client.GivenPublisher) {
+func testProducer(topic string, k outbox.Publisher) {
 	err := k.Publish(context.Background(), topic, "test", map[string][]byte{
 		"test": []byte("test"),
 	})

@@ -1,4 +1,4 @@
-package client
+package entity
 
 type Header interface {
 	GetKey() string

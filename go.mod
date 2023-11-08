@@ -1,9 +1,11 @@
-module gitlab.enkod.tech/pkg/transactionoutbox
+module github.com/enkodio/pkg-outbox
 
 go 1.21
 
 require (
 	github.com/confluentinc/confluent-kafka-go v1.9.2
+	github.com/enkodio/pkg-kafka v0.0.0-20231026084723-86286053e8dc
+	github.com/enkodio/pkg-postgres v0.0.0-20231031150953-8a8abf7e0da4
 	github.com/georgysavva/scany/v2 v2.0.0
 	github.com/google/uuid v1.3.1
 	github.com/jackc/pgx/v5 v5.4.3
@@ -11,8 +13,6 @@ require (
 	github.com/pressly/goose/v3 v3.15.0
 	github.com/sirupsen/logrus v1.9.3
 	github.com/vm-affekt/logrustash v0.0.0-20200319075716-0e0c1586c1f2
-	gitlab.enkod.tech/pkg/kafka v0.0.0-20231012105208-5c070669b809
-	gitlab.enkod.tech/pkg/postgres v0.0.0-20231008142222-7eb81034b887
 )
 
 require (

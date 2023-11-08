@@ -1,27 +1,28 @@
-package client
+package logic
 
 import (
 	"context"
+	"github.com/enkodio/pkg-outbox/internal/entity"
+	"github.com/enkodio/pkg-outbox/outbox"
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
-	"gitlab.enkod.tech/pkg/transactionoutbox/internal/entity"
 	"time"
 )
 
-type publisherLogic struct {
+type PublisherLogic struct {
 	serviceName     string
-	storeRepository Store
-	prePublish      []Pre
+	storeRepository entity.Store
+	prePublish      []outbox.Pre
 }
 
-func newPublisherLogic(storeRepository Store, serviceName string) GivenPublisher {
-	return &publisherLogic{
+func NewPublisherLogic(storeRepository entity.Store, serviceName string) *PublisherLogic {
+	return &PublisherLogic{
 		storeRepository: storeRepository,
 		serviceName:     serviceName,
 	}
 }
 
-func (p *publisherLogic) validateMessage(message Message) error {
+func (p *PublisherLogic) validateMessage(message outbox.Message) error {
 	if message.Topic == "" {
 		return errors.New("invalid message, topic is empty")
 	}
@@ -31,8 +32,8 @@ func (p *publisherLogic) validateMessage(message Message) error {
 	return nil
 }
 
-func (p *publisherLogic) Publish(ctx context.Context, topic string, data interface{}, headers ...map[string][]byte) error {
-	message := NewMessage(topic, data, headers...)
+func (p *PublisherLogic) Publish(ctx context.Context, topic string, data interface{}, headers ...map[string][]byte) error {
+	message := outbox.NewMessage(topic, data, headers...)
 	err := p.validateMessage(message)
 	if err != nil {
 		return err
@@ -40,16 +41,16 @@ func (p *publisherLogic) Publish(ctx context.Context, topic string, data interfa
 	for _, pre := range p.prePublish {
 		pre(ctx, &message)
 	}
-	record := Record{
+	record := entity.Record{
 		ServiceName: p.serviceName,
 		Uuid:        uuid.New(),
 		Message:     message,
-		State:       PendingDelivery,
+		State:       entity.PendingDelivery,
 		CreatedOn:   time.Now().UTC().Unix(),
 	}
 	return p.storeRepository.AddRecord(ctx, record)
 }
 
-func (p *publisherLogic) PrePublish(pre Pre) {
+func (p *PublisherLogic) PrePublish(pre outbox.Pre) {
 	p.prePublish = append(p.prePublish, pre)
 }

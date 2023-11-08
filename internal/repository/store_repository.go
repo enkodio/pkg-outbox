@@ -1,23 +1,25 @@
-package client
+package repository
 
 import (
 	"context"
 	"fmt"
+	"github.com/enkodio/pkg-outbox/internal/entity"
+	"github.com/enkodio/pkg-outbox/outbox"
 	"github.com/georgysavva/scany/v2/pgxscan"
 	"github.com/pkg/errors"
 )
 
 type storeRepository struct {
-	client Client
+	client outbox.RepositoryClient
 }
 
-func newStoreRepository(client Client) Store {
+func NewStoreRepository(client outbox.RepositoryClient) entity.Store {
 	return &storeRepository{
 		client: client,
 	}
 }
 
-func (s *storeRepository) AddRecord(ctx context.Context, record Record) error {
+func (s *storeRepository) AddRecord(ctx context.Context, record entity.Record) error {
 	query := fmt.Sprintf(`INSERT INTO %s
 	(uuid, message, state, created_on,service_name)
 	VALUES($1, $2, $3, $4,$5);`,
@@ -29,7 +31,7 @@ func (s *storeRepository) AddRecord(ctx context.Context, record Record) error {
 	return nil
 }
 
-func (s *storeRepository) GetPendingRecords(ctx context.Context, filter Filter) (records []Record, err error) {
+func (s *storeRepository) GetPendingRecords(ctx context.Context, filter entity.Filter) (records []entity.Record, err error) {
 	query := fmt.Sprintf(`SELECT uuid,message 
 	FROM %s
 	WHERE state=$1 ORDER BY created_on asc`,
@@ -38,7 +40,7 @@ func (s *storeRepository) GetPendingRecords(ctx context.Context, filter Filter) 
 		query += fmt.Sprintf(" LIMIT %d", filter.Limit)
 	}
 	query += " FOR UPDATE"
-	rows, err := s.client.Query(ctx, query, PendingDelivery)
+	rows, err := s.client.Query(ctx, query, entity.PendingDelivery)
 	if err != nil {
 		return nil, errors.Wrap(err, sqlErr)
 	}
@@ -49,7 +51,7 @@ func (s *storeRepository) GetPendingRecords(ctx context.Context, filter Filter) 
 	return records, nil
 }
 
-func (s *storeRepository) UpdateRecordsStatus(ctx context.Context, records Records, status RecordState) error {
+func (s *storeRepository) UpdateRecordsStatus(ctx context.Context, records entity.Records, status entity.RecordState) error {
 	query := fmt.Sprintf(`UPDATE %s SET state = $1 WHERE uuid = any($2)`,
 		outboxTable)
 	_, err := s.client.Exec(ctx, query, status, records.GetUuids())
@@ -59,7 +61,7 @@ func (s *storeRepository) UpdateRecordsStatus(ctx context.Context, records Recor
 	return err
 }
 
-func (s *storeRepository) DeleteRecords(ctx context.Context, records Records) error {
+func (s *storeRepository) DeleteRecords(ctx context.Context, records entity.Records) error {
 	query := fmt.Sprintf("DELETE FROM %s WHERE uuid = any($1)",
 		outboxTable)
 	_, err := s.client.Exec(ctx, query, records.GetUuids())

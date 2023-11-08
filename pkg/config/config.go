@@ -3,7 +3,7 @@ package config
 import (
 	"encoding/json"
 	"fmt"
-	"gitlab.enkod.tech/pkg/transactionoutbox/pkg/config/entity"
+	"github.com/enkodio/pkg-outbox/pkg/config/entity"
 	"io/ioutil"
 	"log"
 )
