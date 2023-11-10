@@ -3,8 +3,8 @@ package outbox
 import "time"
 
 type RecordLogic interface {
-	StartProcessRecords()
-	StopProcessRecords()
+	Start()
+	Stop()
 	ChangeRecordSettings
 }
 

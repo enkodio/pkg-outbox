@@ -8,6 +8,7 @@ type Publisher interface {
 
 type OutboxPublisher interface {
 	PrePublish(Pre)
+	StopProduce()
 	Publisher
 }
 

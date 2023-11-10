@@ -43,14 +43,14 @@ func NewRecordsLogic(
 	return r
 }
 
-func (r *RecordsLogic) StartProcessRecords() {
+func (r *RecordsLogic) Start() {
 	r.syncGroup.Add(r.CountGoroutines)
 	for i := 0; i < r.CountGoroutines; i++ {
 		go r.processRecords()
 	}
 }
 
-func (r *RecordsLogic) StopProcessRecords() {
+func (r *RecordsLogic) Stop() {
 	r.syncGroup.Close()
 }
 
