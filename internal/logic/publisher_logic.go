@@ -13,12 +13,14 @@ type PublisherLogic struct {
 	serviceName     string
 	storeRepository entity.Store
 	prePublish      []outbox.Pre
+	syncGroup       *entity.SyncGroup
 }
 
 func NewPublisherLogic(storeRepository entity.Store, serviceName string) *PublisherLogic {
 	return &PublisherLogic{
 		storeRepository: storeRepository,
 		serviceName:     serviceName,
+		syncGroup:       entity.NewSyncGroup(),
 	}
 }
 
@@ -33,6 +35,9 @@ func (p *PublisherLogic) validateMessage(message outbox.Message) error {
 }
 
 func (p *PublisherLogic) Publish(ctx context.Context, topic string, data interface{}, headers ...map[string][]byte) error {
+	if p.syncGroup.Closed() {
+		return errors.New("publisher was closed")
+	}
 	message := outbox.NewMessage(topic, data, headers...)
 	err := p.validateMessage(message)
 	if err != nil {
@@ -53,4 +58,8 @@ func (p *PublisherLogic) Publish(ctx context.Context, topic string, data interfa
 
 func (p *PublisherLogic) PrePublish(pre outbox.Pre) {
 	p.prePublish = append(p.prePublish, pre)
+}
+
+func (p *PublisherLogic) StopProduce() {
+	p.syncGroup.Close()
 }

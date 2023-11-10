@@ -47,3 +47,7 @@ func (s *SyncGroup) Start() {
 	s.closed = false
 	s.done = make(chan struct{})
 }
+
+func (s *SyncGroup) Closed() bool {
+	return s.closed
+}
