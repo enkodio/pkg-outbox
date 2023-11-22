@@ -21,16 +21,16 @@ func (m MessageHeader) GetValue() []byte {
 	return m.Value
 }
 
-func (m MessageHeaders) ToMap() map[string][]byte {
-	headers := make(map[string][]byte, len(m))
-	for _, h := range m {
+func (m *MessageHeaders) ToMap() map[string][]byte {
+	headers := make(map[string][]byte, len(*m))
+	for _, h := range *m {
 		headers[h.Key] = h.Value
 	}
 	return headers
 }
 
-func (m MessageHeaders) GetValueByKey(key string) []byte {
-	for _, header := range m {
+func (m *MessageHeaders) GetValueByKey(key string) []byte {
+	for _, header := range *m {
 		if header.GetKey() == key {
 			return header.GetValue()
 		}

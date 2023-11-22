@@ -2,9 +2,9 @@ package logic
 
 import (
 	"context"
-	"github.com/enkodio/pkg-outbox/internal/entity"
+	"github.com/enkodio/pkg-outbox/internal/outbox/entity"
+	"github.com/enkodio/pkg-outbox/internal/pkg/logger"
 	"github.com/enkodio/pkg-outbox/outbox"
-	"github.com/enkodio/pkg-outbox/pkg/logger"
 	pgClient "github.com/enkodio/pkg-postgres/client"
 	"github.com/pkg/errors"
 	"time"

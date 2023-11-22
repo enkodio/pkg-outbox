@@ -11,7 +11,7 @@ RUN apk upgrade && apk add git gcc libc-dev librdkafka-dev pkgconf tzdata \
     --no-create-home \
     --uid "${UID}" \
     "${USER}"
-WORKDIR /go/src/messageConditionService
+WORKDIR /go/src/pkg-outbox
 COPY . .
 
 RUN CGO_ENABLED=1 GOOS=linux \
@@ -38,6 +38,6 @@ COPY --from=builder /usr/share/zoneinfo /usr/share/zoneinfo
 # Копируем бинарник
 COPY --from=builder /compiled/ /compiled/
 # Копируем файлы миграций
-COPY --from=builder /go/src/messageConditionService/migration/migrations/ /compiled/migrations/
+COPY --from=builder /go/src/pkg-outbox/migration/migrations/ /compiled/migrations/
 
 ENTRYPOINT /compiled/migration -dir=/compiled/migrations

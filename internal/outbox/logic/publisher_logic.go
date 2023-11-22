@@ -2,7 +2,7 @@ package logic
 
 import (
 	"context"
-	"github.com/enkodio/pkg-outbox/internal/entity"
+	"github.com/enkodio/pkg-outbox/internal/outbox/entity"
 	"github.com/enkodio/pkg-outbox/outbox"
 	"github.com/google/uuid"
 	"github.com/pkg/errors"

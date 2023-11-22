@@ -4,10 +4,10 @@ import (
 	"context"
 	kafkaClient "github.com/enkodio/pkg-kafka/client"
 	"github.com/enkodio/pkg-outbox/client"
+	configEntity "github.com/enkodio/pkg-outbox/internal/pkg/config/entity"
+	"github.com/enkodio/pkg-outbox/internal/pkg/logger"
 	"github.com/enkodio/pkg-outbox/outbox"
 
-	configEntity "github.com/enkodio/pkg-outbox/pkg/config/entity"
-	"github.com/enkodio/pkg-outbox/pkg/logger"
 	postgres "github.com/enkodio/pkg-postgres/client"
 	"time"
 )

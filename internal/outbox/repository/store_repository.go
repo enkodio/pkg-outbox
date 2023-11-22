@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 	"fmt"
-	"github.com/enkodio/pkg-outbox/internal/entity"
+	"github.com/enkodio/pkg-outbox/internal/outbox/entity"
 	"github.com/enkodio/pkg-outbox/outbox"
 	"github.com/georgysavva/scany/v2/pgxscan"
 	"github.com/pkg/errors"

@@ -1,11 +1,11 @@
 package client
 
 import (
-	"github.com/enkodio/pkg-outbox/internal/logic"
-	"github.com/enkodio/pkg-outbox/internal/repository"
-	"github.com/enkodio/pkg-outbox/migration/app"
+	"github.com/enkodio/pkg-outbox/internal/migration/app"
+	"github.com/enkodio/pkg-outbox/internal/outbox/logic"
+	"github.com/enkodio/pkg-outbox/internal/outbox/repository"
+	"github.com/enkodio/pkg-outbox/internal/pkg/logger"
 	"github.com/enkodio/pkg-outbox/outbox"
-	"github.com/enkodio/pkg-outbox/pkg/logger"
 	"github.com/sirupsen/logrus"
 )
 
@@ -22,7 +22,7 @@ func NewOutbox(
 		logger.SetDefaultLogger("debug")
 	}
 
-	app.Run(pgClient.GetSqlDB(), serviceName, map[string]string{
+	app.Run(pgClient.GetSqlDB(), map[string]string{
 		"c":   "up",
 		"dir": "/migration/migrations",
 	})

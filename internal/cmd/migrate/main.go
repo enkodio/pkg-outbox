@@ -2,8 +2,8 @@ package main
 
 import (
 	"database/sql"
-	"github.com/enkodio/pkg-outbox/migration/app"
-	"github.com/enkodio/pkg-outbox/pkg/config"
+	"github.com/enkodio/pkg-outbox/internal/migration/app"
+	"github.com/enkodio/pkg-outbox/internal/pkg/config"
 	log "github.com/sirupsen/logrus"
 	"os"
 )
@@ -13,7 +13,7 @@ const (
 )
 
 func main() {
-	configSettings, err := config.LoadConfigSettingsByPath("configs")
+	configSettings, err := config.LoadConfigSettingsByPath("internal/cmd/configs")
 	if err != nil {
 		log.Error(err)
 		os.Exit(1)
@@ -23,5 +23,5 @@ func main() {
 		log.Error(err)
 		os.Exit(1)
 	}
-	app.Run(db, serviceName, nil)
+	app.Run(db, nil)
 }

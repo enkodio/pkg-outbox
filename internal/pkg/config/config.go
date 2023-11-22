@@ -3,7 +3,7 @@ package config
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/enkodio/pkg-outbox/pkg/config/entity"
+	"github.com/enkodio/pkg-outbox/internal/pkg/config/entity"
 	"io/ioutil"
 	"log"
 )
